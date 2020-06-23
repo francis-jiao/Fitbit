@@ -6,17 +6,23 @@ import java.util.Scanner;
 import java.io.*;
 
 public class fitbit {
-	public static void main(String[] args) {
+	private String input;
+	
+	public fitbit(String input) {
+        this.input = input;
+    }
+	
+	public void moving() {
 		FileInputStream file = null;
 		try {
-			file = new FileInputStream("src/intern/input.txt"); // open the input file
+			file = new FileInputStream(this.input); // open the input file
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
         Scanner sr = new Scanner(file); // scan input file line by line
         String grid = sr.nextLine();
-        int grid_x = grid.charAt(0);
-        int grid_y = grid.charAt(2);
+        int grid_x = Character.getNumericValue(grid.charAt(0));
+        int grid_y = Character.getNumericValue(grid.charAt(2));
         ArrayList<Trainee> array = new ArrayList<Trainee>(); // creating arraylist to store the output
         
         while( sr.hasNextLine() ){
@@ -31,18 +37,20 @@ public class fitbit {
             String move = sr.nextLine();
             for(int i = 0; i < move.length(); i++) {  // move the trainee in the grid
             	char c = move.charAt(i);
-            	ee.move(c);
-            	if (ee.getx() > grid_x || ee.gety() > grid_y || ee.getx() < 0 || ee.gety() < 0 ) {  // check if the trainee out of grid
+            	if (ee.move(c, grid_x, grid_y) == false){
             		System.out.println("Exception thrown  : out of Grid");
             		return;
             	}
             }
             array.add(ee);
         }
-        System.out.println("Output is:");
         for (Trainee t : array) {                                              
-        	System.out.println(t.getx() + " " + t.gety() + " "+ t.getori());  // print the output
+        	System.out.println(t.getx() + " " + t.gety() + " "+ t.getori());  // output
         }
-        sr.close(); //close the file
+        sr.close();
     }
+	
+	public void loadfile(String file) {
+		this.input = file;
+	}
 }
