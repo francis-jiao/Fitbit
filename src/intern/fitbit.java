@@ -12,7 +12,7 @@ public class fitbit {
         this.input = input;
     }
 	
-	public void moving() {
+	public ArrayList<Trainee> moving() {
 		FileInputStream file = null;
 		try {
 			file = new FileInputStream(this.input); // open the input file
@@ -39,7 +39,7 @@ public class fitbit {
             	char c = move.charAt(i);
             	if (ee.move(c, grid_x, grid_y) == false){
             		System.out.println("Exception thrown  : out of Grid");
-            		return;
+            		return array;
             	}
             }
             array.add(ee);
@@ -48,6 +48,7 @@ public class fitbit {
         	System.out.println(t.getx() + " " + t.gety() + " "+ t.getori());  // output
         }
         sr.close();
+        return array;
     }
 	
 	public void loadfile(String file) {
